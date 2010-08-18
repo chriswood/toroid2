@@ -1,0 +1,56 @@
+Needs to do...
+Given an initial set of statistics, we need to determine audience engaugement for an application.
+So, if I have a set of users, and these users have performed various actions to different ads I have sent, then
+I want to be able to rate them as to their participation, or "engagement". This rating system needs to be flexible, and
+allow the admin to adjust how heavy each given criteria is used to determine the score for each user.
+
+For example:
+I have sent 5 ads out, ads 1-5
+I have 5 users, users 1-5
+
+My criteria is this...
+1) Did they open my ad
+2) Did they click something within my ad
+3) Did they share this ad with a friend
+This is a set of criteria that can be applied to one ad at a time. But, we need to be able to rate users based on a given timeframe.
+So we need to judge things like...
+4) How many of my last x ads did they perform any of the operations on?
+This idea of actions over time is what will be useful for this scoring, as opposed to only looking at response for one ad at a time.
+The more of these actions that occured per user, the higher their score.
+
+A=opened
+B=clicked
+C=sent to a friend
+         Ad1        Ad2          Ad3         Ad4         Ad5
+User1    ABC        ABC          ABC         ABC         ABC
+User2               A
+User3    AB         AC           ABC
+User4    A          A            A           A           A
+User5                                        ABC         ABC
+
+For fixed five ads....
+Set the weight factors
+A = 20
+B = 30
+C = 10
+
+A + B + C = 60
+
+now normalize
+w(A) = 20/60 = .33
+w(B) = 30/60 = .50
+w(C) = 10/60 = .17
+
+We could put event levels in here, such as say 
+instead of clicked = 1, not clicked = 0, we could do
+score = ... + w(B) * (number of clicks normalized to some max value)
+So maybe an average number of 2 clicks ends up being a '1', but one click drops the click factor down a bit, or anything above 4 clicks gets a maximum of a "2", effectively doubling the score from clicks. For now I'll follow the KISS method :)
+So, if they did it, event factor = 1 else 0
+score per ad = Weight_factor(A)*event_factor(A) + Weight_factor(B)*event_factor(B) + Weight_factor(C)*event_factor(C)
+Or more generally, score_per_ad = Sum(i,n) of Weight_factor(i)*event_factor(i) as number of criteria goes to n
+And the total score would be the sum over adds within the timerange of this score. Again, we would probably institute a weighted average here, giving more recent adds more importance, but for now we'll just give them equal importance.
+
+In our example, this would give user1 the following...
+score = (.33(1) + .50(1) + .17(1)) + (.33(1) + .50(1) + .17(1)) + (.33(1) + .50(1) + .17(1)) + (.33(1) + .50(1) + .17(1)) + (.33(1) + .50(1) + .17(1)) = 5
+This is a perfect score, so for readability we may want to normalize this to a percentage
+percentage = (100/max_score) * score = 100
