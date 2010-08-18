@@ -11,6 +11,7 @@ import sys
 import os
 import string
 from engagement import CriteriaBuild
+import django
 
 def main():
     criteria = {
