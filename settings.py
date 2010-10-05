@@ -73,6 +73,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
 )
 
 ROOT_URLCONF = 'toroid2.urls'
@@ -89,6 +91,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'toroid2.engagement',
+    'toroid2.graphing',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
 )
+
+STATIC_DOC_ROOT = '/Users/cwood/toroid2'
+NUMPY_PATH = '/Users/cwood/Envs/toroid2/lib/python2.7/site-packages/numpy/ma/__init__.pyc'
+

@@ -15,7 +15,7 @@ import django
 
 def main():
     criteria = {
-        'opens' : 20,
+        'opens' : 2,
         'clicks' : 30,
         'shares' : 10,
     }
